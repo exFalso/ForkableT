@@ -1,13 +1,15 @@
-{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses, FlexibleContexts, TypeFamilies #-}
+{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses #-}
 module Control.Concurrent.ForkableT where
 
 import Control.Concurrent
 import Control.Monad.Reader
-import Control.Monad.Trans.Resource
+import Control.Monad.Trans.Control
 
 -- ForkableT
 class ForkableT t where
     forkT :: (Forkable m n) => t n () -> t m ThreadId
+    default forkT :: (MonadTransControl t, Forkable m n) => t n () -> t m ThreadId
+    forkT t = liftWith $ \run -> fork $ run t >> return ()
 
 -- Forkable
 class (MonadIO m, MonadIO n) => Forkable m n where
@@ -15,15 +17,8 @@ class (MonadIO m, MonadIO n) => Forkable m n where
     default fork :: ForkableT t => t n () -> t m ThreadId
     fork = forkT
 
-instance ForkableT (ReaderT r) where
-    forkT m = lift . fork . runReaderT m =<< ask
-
 instance Forkable IO IO where
     fork = forkIO
 
+instance ForkableT (ReaderT r)
 instance (Forkable m n) => Forkable (ReaderT r m) (ReaderT r n)
-
-instance (MonadBaseControl IO m, MonadIO m) => Forkable (ResourceT m) (ResourceT m) where
-    fork = resourceForkIO
-
-
