@@ -17,5 +17,5 @@ cabal-version:       >=1.8
 library
   exposed-modules:     Control.Concurrent.ForkableT
   -- other-modules:       
-  build-depends:       base ==4.6.*, mtl ==2.1.*, monad-control ==0.3.*
+  build-depends:       base ==4.6.*, mtl ==2.1.*, monad-control ==0.3.*, resourcet ==0.4.*
   hs-source-dirs:      src

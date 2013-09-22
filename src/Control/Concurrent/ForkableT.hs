@@ -1,9 +1,10 @@
-{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses #-}
+{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses, FlexibleContexts #-}
 module Control.Concurrent.ForkableT where
 
 import Control.Concurrent
 import Control.Monad.Reader
 import Control.Monad.Trans.Control
+import Control.Monad.Trans.Resource
 
 -- ForkableT
 class ForkableT t where
@@ -22,3 +23,5 @@ instance Forkable IO IO where
 
 instance ForkableT (ReaderT r)
 instance (Forkable m n) => Forkable (ReaderT r m) (ReaderT r n)
+instance (MonadBaseControl IO m, MonadIO m) => Forkable (ResourceT m) (ResourceT m) where
+    fork = resourceForkIO
