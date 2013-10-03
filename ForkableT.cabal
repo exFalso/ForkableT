@@ -3,12 +3,12 @@
 
 name:                ForkableT
 version:             0.1.0.0
-synopsis:            forkable monad transformers
--- description:         
+synopsis:            Forkable monad transformers
+description:         Provides two classes for modular handling of forking
 license:             BSD3
 license-file:        LICENSE
 -- author:              
--- maintainer:          
+maintainer:          Andras Slemmer
 -- copyright:           
 category:            Control
 build-type:          Simple
