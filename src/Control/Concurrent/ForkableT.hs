@@ -7,8 +7,8 @@
 -}
 module Control.Concurrent.ForkableT
     (
-      ForkableT
-    , Forkable
+      ForkableT(..)
+    , Forkable(..)
     )
 where
 
