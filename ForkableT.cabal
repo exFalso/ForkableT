@@ -12,8 +12,8 @@ cabal-version:       >=1.8
 
 library
   exposed-modules:     Control.Concurrent.ForkableT, Control.Concurrent.ForkableT.Instances
-  build-depends:       base < 5 && >= 4,
-                       mtl < 3 && >= 2,
-                       monad-control < 1,
-                       resourcet < 2 && >= 1
+  build-depends:       base == 4.*
+                     , mtl == 2.*
+                     , monad-control == 1.*
+                     , resourcet == 1.*
   hs-source-dirs:      src
