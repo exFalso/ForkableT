@@ -1,5 +1,5 @@
 name:                ForkableT
-version:             0.1.0.1
+version:             0.1.0.2
 synopsis:            Forkable monad transformers
 description:         Provides two classes for modular handling of forking
 license:             BSD3
