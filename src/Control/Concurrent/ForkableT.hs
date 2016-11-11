@@ -1,4 +1,4 @@
-{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses, FlexibleContexts, Safe #-}
+{-# LANGUAGE DefaultSignatures, MultiParamTypeClasses, FlexibleContexts, Safe, TypeFamilies #-}
 {-|
   This module defines two classes. @'Forkable' m n@ means a monad @n@ may be forked in @m@.
   @'ForkableT' t@ means that applying the transformer to @n@ and @m@ will mean you can still fork @t n@ in @t m@.
@@ -28,7 +28,8 @@ class ForkableT t where
 -- |Forkable. The default instance uses 'ForkableT' and simply calls 'forkT'
 class (MonadIO m, MonadIO n) => Forkable m n where
     fork :: n () -> m ThreadId
-    default fork :: ForkableT t => t n () -> t m ThreadId
+    default fork :: (ForkableT t, Forkable m' n', n ~ t n', m ~ t m')
+                 => n () -> m ThreadId
     fork = forkT
 
 instance Forkable IO IO where
